@@ -24,10 +24,12 @@ export default function createAuth({
         }
         
         // 'or' query
-        const checkDuplicate = await findDocuments({
+        const checkUserExists = await findDocuments({
             query: { 
                 usernamePasswordHash: user.usernamePasswordHash}, dbConfig 
             })
+        
+        if(!checkUserExists.length) throw new Error('Invalid username or password');   
         
     
         logger.info('[POST][USE-CASE] Inserting object process - DONE!');
